@@ -1,4 +1,7 @@
-#version 330 core
+#version 300 es
+
+precision lowp float;
+
 in VS_OUT{
     vec2 tc;
     flat int instance;
@@ -27,7 +30,7 @@ void main(void)
         c1 = c2 = c3 = texture(texdata,vec3(fs_in.tc,4));
     }
 
-    if(c1.a==0)
+    if(c1.a==0.)
         discard;
 
     float a1 = a1_mask.a;

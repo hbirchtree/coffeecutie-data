@@ -1,14 +1,17 @@
-#version 330 core
-#extension GL_ARB_cull_distance : enable
+#version 300 es
+#extension GL_EXT_shader_io_blocks : enable
+
+#undef GL_EXT_shader_io_blocks
+
+precision lowp float;
 
 layout(location=0)in vec3 pos;
 layout(location=1)in vec2 tex;
 
 out gl_PerVertex{
     vec4 gl_Position;
+#ifdef GL_EXT_shader_io_blocks
     float gl_ClipDistance[1];
-#ifdef GL_ARB_cull_distance
-    float gl_CullDistance[1];
 #endif
 };
 out VS_OUT{
@@ -32,6 +35,7 @@ void main(void)
     vs_out.tc = tex*tex_mul[eyeId];
     gl_Position = transform[instance]*vec4(pos,1.);
 
+#ifdef GL_EXT_shader_io_blocks
     /* Clip plane properties */
     const vec4 eyeClipEdge[2] = vec4[](vec4(-1.,0.,0.,1.),vec4(1.,0.,0.,1.));
     const float eyeOffsetScale[2] = float[](-.5,.5);
@@ -41,10 +45,5 @@ void main(void)
 
     /* This lets us avoid having to fiddle with viewports or viewport arrays */
     gl_ClipDistance[0] = dot(gl_Position,clipPlane);
-
-#ifdef GL_ARB_cull_distance
-    /* TODO: Fix culling, this could be important for perf */
-    /* For now, write 1.0 to it. This makes it not user-culled */
-    gl_CullDistance[0] = 1.;
 #endif
 }
