@@ -1,8 +1,6 @@
 #version 300 es
 #extension GL_EXT_shader_io_blocks : enable
 
-#undef GL_EXT_shader_io_blocks
-
 precision lowp float;
 
 layout(location=0)in vec3 pos;
