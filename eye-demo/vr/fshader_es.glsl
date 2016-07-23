@@ -2,32 +2,30 @@
 
 precision lowp float;
 
-in VS_OUT{
-    vec2 tc;
-    flat int instance;
-} fs_in;
+in vec2 vs_tc;
+flat in int vs_instance;
 
 layout(location = 0) out vec4 color;
 
 uniform float mx;
 
-uniform sampler2DArray texdata;
+uniform mediump sampler2DArray texdata;
 
 void main(void)
 {
     /*Common alpha mask*/
-    vec4 a1_mask = texture(texdata,vec3(fs_in.tc,2));
+    vec4 a1_mask = texture(texdata,vec3(vs_tc,2));
 
     /* Colors to blend */
     vec4 c1,c2,c3;
 
-    if(fs_in.instance < 2)
+    if(vs_instance < 2)
     {
-        c1 = texture(texdata,vec3(fs_in.tc,0)); /* Normal color */
-        c2 = texture(texdata,vec3(fs_in.tc,1)); /* Weird color */
-        c3 = texture(texdata,vec3(fs_in.tc,3)); /* Veiny stuff */
+        c1 = texture(texdata,vec3(vs_tc,0)); /* Normal color */
+        c2 = texture(texdata,vec3(vs_tc,1)); /* Weird color */
+        c3 = texture(texdata,vec3(vs_tc,3)); /* Veiny stuff */
     }else{
-        c1 = c2 = c3 = texture(texdata,vec3(fs_in.tc,4));
+        c1 = c2 = c3 = texture(texdata,vec3(vs_tc,4));
     }
 
     if(c1.a==0.)
