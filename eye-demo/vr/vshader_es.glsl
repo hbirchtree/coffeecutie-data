@@ -13,7 +13,7 @@ layout(location=1)in vec2 tex;
 out vec2 vs_tc;
 flat out int vs_instance;
 
-uniform mat4 transform[102];
+uniform mat4 transform[6];
 uniform vec2 tex_mul[2];
 
 void main(void)
