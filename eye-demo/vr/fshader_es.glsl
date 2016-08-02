@@ -1,9 +1,18 @@
 #version 300 es
+#extension GL_ARB_separate_shader_objects : enable
 
 precision lowp float;
 
+#ifndef GL_ARB_separate_shader_objects
 in vec2 vs_tc;
 flat in int vs_instance;
+#else
+in VS_OUT
+{
+    vec2 vs_tc;
+    flat int vs_instance;
+} fs_in;
+#endif
 
 layout(location = 0) out vec4 color;
 
@@ -13,6 +22,11 @@ uniform mediump sampler2DArray texdata;
 
 void main(void)
 {
+#ifdef GL_ARB_separate_shader_objects
+    vec2 vs_tc = vs_in.vs_tc;
+    int vs_instance = vs_in.vs_instance;
+#endif
+
     /*Common alpha mask*/
     vec4 a1_mask = texture(texdata,vec3(vs_tc,2));
 

@@ -1,17 +1,21 @@
 #version 300 es
-#extension GL_EXT_shader_io_blocks : enable
+#extension GL_ARB_separate_shader_objects : enable
 
 precision lowp float;
 
 layout(location=0)in vec3 pos;
 layout(location=1)in vec2 tex;
 
-//#ifdef GL_EXT_shader_io_blocks
-//out float gl_ClipDistance[1];
-//#endif
-
+#ifndef GL_ARB_separate_shader_objects
 out vec2 vs_tc;
 flat out int vs_instance;
+#else
+out VS_OUT
+{
+    vec2 vs_tc;
+    flat int vs_instance;
+} vs_out;
+#endif
 
 uniform mat4 transform[6];
 uniform vec2 tex_mul[2];
@@ -25,19 +29,12 @@ void main(void)
     int eyeId = instance%2;
 
     /* Regular vertex properties */
+#ifndef GL_ARB_separate_shader_objects
     vs_instance = instance;
     vs_tc = tex*tex_mul[eyeId];
+#else
+    vs_out.vs_instance = instance;
+    vs_out.vs_tc = tex*tex_mul[eyeId];
+#endif
     gl_Position = transform[instance]*vec4(pos,1.);
-
-//#ifdef GL_EXT_shader_io_blocks
-//    /* Clip plane properties */
-//    const vec4 eyeClipEdge[2] = vec4[](vec4(-1.,0.,0.,1.),vec4(1.,0.,0.,1.));
-//    const float eyeOffsetScale[2] = float[](-.5,.5);
-
-//    vec4 clipPlane = vec4(0.);
-//    clipPlane.x = eyeOffsetScale[eyeId];
-
-//    /* This lets us avoid having to fiddle with viewports or viewport arrays */
-//    gl_ClipDistance[0] = dot(gl_Position,clipPlane);
-//#endif
 }
