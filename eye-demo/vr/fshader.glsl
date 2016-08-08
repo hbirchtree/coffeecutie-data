@@ -21,10 +21,9 @@ void main(void)
     if(fs_in.instance < 2)
     {
         c1 = texture(texdata,vec3(fs_in.tc,0)); /* Normal color */
-        c2 = texture(texdata,vec3(fs_in.tc,1)); /* Weird color */
-        c3 = texture(texdata,vec3(fs_in.tc,3)); /* Veiny stuff */
+	c2 = texture(texdata,vec3(fs_in.tc,1)); /* Weird color */
     }else{
-        c1 = c2 = c3 = texture(texdata,vec3(fs_in.tc,4));
+	c1 = c2 = texture(texdata,vec3(fs_in.tc,3));
     }
 
     if(c1.a==0)
@@ -35,9 +34,4 @@ void main(void)
         color = c1;
     else
         color = c2;
-
-    if((mx-0.5)>a1 && c3.a > 0.3)
-    {
-        color=c3;
-    }
 }

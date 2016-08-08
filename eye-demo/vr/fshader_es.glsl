@@ -37,9 +37,8 @@ void main(void)
     {
         c1 = texture(texdata,vec3(vs_tc,0)); /* Normal color */
         c2 = texture(texdata,vec3(vs_tc,1)); /* Weird color */
-        c3 = texture(texdata,vec3(vs_tc,3)); /* Veiny stuff */
     }else{
-        c1 = c2 = c3 = texture(texdata,vec3(vs_tc,4));
+	c1 = c2 = texture(texdata,vec3(vs_tc,3));
     }
 
     if(c1.a==0.)
@@ -50,9 +49,4 @@ void main(void)
         color = c1;
     else
         color = c2;
-
-    if((mx-0.5)>a1 && c3.a > 0.3)
-    {
-        color=c3;
-    }
 }
