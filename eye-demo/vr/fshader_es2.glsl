@@ -10,5 +10,8 @@ uniform mediump sampler2D texdata;
 
 void main(void)
 {
-    gl_FragColor = texture2D(texdata, vs_tc);
+    vec4 smp = texture2D(texdata, vs_tc);
+    if(smp.a < 0.5)
+        discard;
+    gl_FragColor = smp;
 }
