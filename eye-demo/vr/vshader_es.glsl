@@ -1,7 +1,9 @@
 #version 300 es
 #extension GL_ARB_separate_shader_objects : enable
 
+#ifdef GL_ES
 precision lowp float;
+#endif
 
 layout(location=0)in vec3 pos;
 layout(location=1)in vec2 tex;
