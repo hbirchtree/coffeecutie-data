@@ -9,8 +9,6 @@ uniform float mx;
 uniform mediump sampler2D texdata;
 uniform float texdata_gridSize;
 
-uniform int InstanceID;
-
 out vec4 OutColor;
 
 void main(void)

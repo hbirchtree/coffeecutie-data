@@ -7,7 +7,6 @@ layout(location=1) in vec2 tex;
 
 varying vec2 vs_tc;
 
-uniform int InstanceID;
 uniform int InstanceCount;
 
 uniform mat4 transform[6];

@@ -1,9 +1,8 @@
 #version 300 es
-#extension GL_ARB_separate_shader_objects : enable
+//#extension GL_ARB_separate_shader_objects : enable
 
-#ifdef GL_ES
-precision lowp float;
-#endif
+precision highp float;
+precision highp int;
 
 layout(location=0)in vec3 pos;
 layout(location=1)in vec2 tex;
@@ -28,15 +27,16 @@ void main(void)
 
     /* The current eye being rendered */
     int instance = gl_InstanceID;
-    int eyeId = instance%2;
+    int eyeId = instance % 2;
 
     /* Regular vertex properties */
 #ifndef GL_ARB_separate_shader_objects
     vs_instance = instance;
-    vs_tc = tex*tex_mul[eyeId];
+    vs_tc = tex * tex_mul[eyeId];
 #else
     vs_out.vs_instance = instance;
     vs_out.vs_tc = tex*tex_mul[eyeId];
 #endif
-    gl_Position = transform[instance]*vec4(pos,1.);
+    mat4 xf = transform[instance];
+    gl_Position = xf * vec4(pos,1.);
 }

@@ -1,7 +1,8 @@
 #version 300 es
-#extension GL_ARB_separate_shader_objects : enable
+//#extension GL_ARB_separate_shader_objects : enable
 
-precision lowp float;
+precision highp float;
+precision highp int;
 
 #ifndef GL_ARB_separate_shader_objects
 in vec2 vs_tc;
@@ -38,13 +39,14 @@ void main(void)
         c1 = texture(texdata,vec3(vs_tc,0)); /* Normal color */
         c2 = texture(texdata,vec3(vs_tc,1)); /* Weird color */
     }else{
-	c1 = c2 = texture(texdata,vec3(vs_tc,3));
+        c1 = c2 = texture(texdata,vec3(vs_tc,3));
     }
 
     if(c1.a==0.)
         discard;
 
     float a1 = a1_mask.a;
+
     if(mx<a1)
         color = c1;
     else
